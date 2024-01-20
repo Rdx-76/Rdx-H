@@ -1,33 +1,53 @@
 import os
+import random
+from termcolor import colored
 
-def generate_activation_code(device_id):
-    code_format = "{}-{}-{}-{}"
-    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    first_four_letters = ''.join(letters[i % len(letters)] for i in range(4))
-    remaining_digits = str(abs(hash(device_id)) % (10 ** 13)).zfill(13)
-    activation_code = code_format.format(first_four_letters, *([remaining_digits[i:i+4] for i in range(0, len(remaining_digits), 4)]))
-    return activation_code
+# Function to generate a 17-digit code
+def generate_code():
+    letters = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=4))
+    digits = ''.join(random.choices('0123456789', k=13))
+    return f'{letters}-{digits}'
 
-def check_premium_status(activation_code):
-    with open('premium.txt', 'r') as premium_file:
-        premium_codes = premium_file.read().splitlines()
-    return activation_code in premium_codes
+# Function to display colored text
+def print_cyan(text):
+    print(colored(text, 'cyan'))
 
+# Function to clear the console
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Function to check if the provided code is in premium.txt
+def check_premium(code):
+    with open('premium.txt', 'r') as file:
+        premium_codes = file.read().splitlines()
+    return code in premium_codes
+
+# Main function
 def main():
-    os.system('clear')
-    device_id = input("Enter your device ID: ")
+    clear_console()
 
-    activation_code = generate_activation_code(device_id)
+    # Check if the device has a stored code
+    if os.path.exists('device_code.txt'):
+        with open('device_code.txt', 'r') as file:
+            code = file.read().strip()
+    else:
+        # Generate a new code for the device
+        code = generate_code()
+        with open('device_code.txt', 'w') as file:
+            file.write(code)
 
-    print(f"Your activation code is: {activation_code}")
-    
-    premium_status = check_premium_status(activation_code)
+    # Display the generated code
+    print_cyan(f'Your Premium Code: {code}')
 
-    if premium_status:
-        print("\033[96mCongratulations! You are a premium user.")
+    # Input option to enter the code
+    user_input = input(colored('Enter your Premium Code: ', 'cyan')).strip()
+
+    # Check if the entered code is valid
+    if check_premium(user_input):
+        print_cyan('Congratulations! You are a Premium User.')
         os.system('python rdx.py')
     else:
-        print("\033[96mSorry, you are not a premium user.")
+        print_cyan('Sorry, you are not a Premium User.')
         os.system('python sec.py')
 
 if __name__ == "__main__":
