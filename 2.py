@@ -1,32 +1,17 @@
-import pygame
-from pygame.locals import *
-import sys
+from PIL import Image, ImageSequence
+import time
 
-def display_gif(gif_path):
-    pygame.init()
-    
-    # Load the GIF
-    gif = pygame.image.load(gif_path)
-    
-    # Set the display mode
-    width, height = gif.get_size()
-    screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("GIF Display")
+def display_gif(file_path):
+    try:
+        image = Image.open(file_path)
 
-    # Main loop
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                running = False
+        for frame in ImageSequence.Iterator(image):
+            frame.show()
+            time.sleep(0.1)  # Adjust the delay between frames if needed
 
-        # Display the GIF
-        screen.blit(gif, (0, 0))
-        pygame.display.flip()
-
-    pygame.quit()
+    except Exception as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
-    # Replace '2.gif' with the path to your GIF file
-    gif_path = '2.gif'
+    gif_path = "2.gif"  # Replace with the path to your GIF file
     display_gif(gif_path)
