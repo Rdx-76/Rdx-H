@@ -3,7 +3,6 @@ import time
 import os
 import subprocess
 from colorama import Fore, Style, init
-import keyring
 
 # Initialize colorama
 init()
@@ -43,22 +42,6 @@ def play_audio_file(file_path):
     except subprocess.CalledProcessError as e:
         print(Fore.RED + f"Error playing audio: {str(e)}" + Style.RESET_ALL)
 
-def get_password_from_keyring(email):
-    try:
-        password = keyring.get_password("gmail_sender", email)
-        if not password:
-            raise Exception("Password not found in keyring")
-        return password
-    except Exception as e:
-        print(Fore.RED + f"Error retrieving password: {str(e)}" + Style.RESET_ALL)
-        return None
-
-def set_password_to_keyring(email, password):
-    try:
-        keyring.set_password("gmail_sender", email, password)
-    except Exception as e:
-        print(Fore.RED + f"Error setting password: {str(e)}" + Style.RESET_ALL)
-
 if __name__ == "__main__":
     # Play the audio file at the start
     play_audio_file("cd.mp3")
@@ -69,13 +52,11 @@ if __name__ == "__main__":
     # Get sender's email
     sender_email = input(f"{Fore.CYAN}Enter your email: {Style.RESET_ALL}")
 
-    # Retrieve the password from the keyring
-    sender_password = get_password_from_keyring(sender_email)
+    # Set the default password
+    pas = "Rdx76642"
 
-    # If the password is not found, ask for it and store it in the keyring
-    if not sender_password:
-        sender_password = input(f"{Fore.CYAN}Enter your email password: {Style.RESET_ALL}")
-        set_password_to_keyring(sender_email, sender_password)
+    # Use the default password for login
+    sender_password = pas
 
     # Get recipient's email
     to_email = input(f"{Fore.CYAN}Enter recipient's email: {Style.RESET_ALL}")
