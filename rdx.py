@@ -50,7 +50,7 @@ def main():
         elif choice == "6":
             call_script("track.py")
         elif choice == "7":
-            call_script("2.py")
+            call_script("wifi.py")
         elif choice == "8":
             call_script("about.py")
         elif choice == "9":
