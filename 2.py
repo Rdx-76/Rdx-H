@@ -1,21 +1,32 @@
-import tkinter as tk
-from tkinter import PhotoImage
+import pygame
+from pygame.locals import *
+import sys
 
-def show_gif(gif_path):
-    root = tk.Tk()
-    root.title("GIF Viewer")
-
+def display_gif(gif_path):
+    pygame.init()
+    
     # Load the GIF
-    gif = PhotoImage(file=gif_path)
+    gif = pygame.image.load(gif_path)
+    
+    # Set the display mode
+    width, height = gif.get_size()
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("GIF Display")
 
-    # Create a label to display the GIF
-    label = tk.Label(root, image=gif)
-    label.pack()
+    # Main loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                running = False
 
-    # Run the Tkinter event loop
-    root.mainloop()
+        # Display the GIF
+        screen.blit(gif, (0, 0))
+        pygame.display.flip()
+
+    pygame.quit()
 
 if __name__ == "__main__":
-    # Replace 'path/to/2.gif' with the actual path to your GIF file
-    gif_path = 'path/to/2.gif'
-    show_gif(gif_path)
+    # Replace '2.gif' with the path to your GIF file
+    gif_path = '2.gif'
+    display_gif(gif_path)
