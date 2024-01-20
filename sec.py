@@ -21,7 +21,7 @@ def main():
             os.system("python demo.py")
         elif choice == "3":
             play_audio_file("dcd.mp3")
-            os.system("kill -9 $$")  # Kill the script instantly after playing audio
+            break  # Kill the script instantly after playing audio
         else:
             print("Invalid choice. Please enter a valid option.")
 
