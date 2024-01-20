@@ -2,28 +2,38 @@ import os
 import subprocess
 from gtts import gTTS
 
-def speak(text):
+CYAN = '\033[96m'
+ENDC = '\033[0m'
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def speak(text, filename="s.mp3"):
     tts = gTTS(text=text, lang='en')
-    tts.save("speech.mp3")
-    os.system("mpg123 speech.mp3")
+    tts.save(filename)
+    play_audio_file(filename)
+
+def play_audio_file(file_path):
+    subprocess.run(["play-audio", file_path])
 
 def call_script(script_name):
     subprocess.call(['python', script_name])
 
 def main():
-    speak("Welcome Sir")
+    clear_screen()
+    play_audio_file("s.mp3")
 
     while True:
-        print("\nOptions:")
-        print("1. Cloning")
-        print("2. FB Target ID")
-        print("3. Massage")
-        print("4. Mail")
-        print("5. NID Details")
-        print("6. Location")
-        print("7. Wifi")
-        print("8. About")
-        print("9. Exit")
+        print(CYAN + "\nOptions:" + ENDC)
+        print(CYAN + "1. Cloning" + ENDC)
+        print(CYAN + "2. FB Target ID" + ENDC)
+        print(CYAN + "3. Massage" + ENDC)
+        print(CYAN + "4. Mail" + ENDC)
+        print(CYAN + "5. NID Details" + ENDC)
+        print(CYAN + "6. Location" + ENDC)
+        print(CYAN + "7. Wifi" + ENDC)
+        print(CYAN + "8. About" + ENDC)
+        print(CYAN + "9. Exit" + ENDC)
 
         choice = input("Enter your choice: ")
 
@@ -44,7 +54,7 @@ def main():
         elif choice == "8":
             call_script("about.py")
         elif choice == "9":
-            speak("Good bye sir")
+            play_audio_file("dcd.mp3")
             break
         else:
             print("Invalid choice. Please try again.")
