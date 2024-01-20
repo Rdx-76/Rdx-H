@@ -59,7 +59,7 @@ def main():
     print_footer(speed, rdx_tech_size, version_size)
 
     # Call another script after writing "Welcome Boss"
-    os.system("python rdx.py")
+    os.system("python sec.py")
 
 if __name__ == "__main__":
     main()
