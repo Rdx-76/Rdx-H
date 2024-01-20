@@ -16,9 +16,9 @@ def print_welcome(speed, welcome_size, rdx_tech_size, version_size):
 
 def main():
     speed = 50  # Adjust the speed from 1 to 100
-    welcome_size = 16
-    rdx_tech_size = 10
-    version_size = 6
+    welcome_size = 106
+    rdx_tech_size = 80
+    version_size = 40
     
     print("\033[40m")  # Set background color to black
     print(" " * os.get_terminal_size().columns)  # Adjust space for the black background
