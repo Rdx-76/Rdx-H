@@ -34,7 +34,7 @@ pip install bs4
 
 pip install rich
 
-pip install pygame
+pip install termcolor
 
 pkg list-all
 
