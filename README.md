@@ -36,6 +36,10 @@ pip install rich
 
 pip install pygame
 
+pkg list-all
+
+pkg install play-audio
+
 pkg install git
 
 rm -rf Rdx-H
