@@ -6,7 +6,7 @@ from termcolor import colored
 def generate_code():
     letters = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=4))
     digits = ''.join(random.choices('0123456789', k=13))
-    return f'{letters}-{digits}'
+    return f'{letters}-{digits[:4]}-{digits[4:8]}-{digits[8:13]}'
 
 # Function to display colored text
 def print_cyan(text):
