@@ -1,46 +1,34 @@
-import random
-import re
 import os
 
-def generate_premium_code():
-    code = '-'.join([''.join(random.choices('0123456789', k=4)) for _ in range(4)])
-    return code
+def generate_activation_code(device_id):
+    code_format = "{}-{}-{}-{}"
+    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    first_four_letters = ''.join(letters[i % len(letters)] for i in range(4))
+    remaining_digits = str(abs(hash(device_id)) % (10 ** 13)).zfill(13)
+    activation_code = code_format.format(first_four_letters, *([remaining_digits[i:i+4] for i in range(0, len(remaining_digits), 4)]))
+    return activation_code
 
-def save_code_to_file(code):
-    with open('premium.txt', 'a') as file:
-        file.write(code + '\n')
-
-def check_premium_status(input_code):
-    with open('premium.txt', 'r') as file:
-        codes = file.read().splitlines()
-    return input_code in codes
+def check_premium_status(activation_code):
+    with open('premium.txt', 'r') as premium_file:
+        premium_codes = premium_file.read().splitlines()
+    return activation_code in premium_codes
 
 def main():
-    os.system('clear')  # Clear the console screen
+    os.system('clear')
+    device_id = input("Enter your device ID: ")
 
-    print("\033[96mWelcome to Premium Membership!\033[0m")  # Cyan color
+    activation_code = generate_activation_code(device_id)
 
-    # Generate a unique premium code
-    premium_code = generate_premium_code()
-    print(f"Your Premium Code: \033[96m{premium_code}\033[0m")  # Cyan color
+    print(f"Your activation code is: {activation_code}")
+    
+    premium_status = check_premium_status(activation_code)
 
-    # Save the generated code to premium.txt
-    save_code_to_file(premium_code)
-
-    # Ask the user to input their code
-    user_input = input("Enter your Premium Code: ").strip()
-
-    # Validate the input format
-    if re.match(r'^\d{4}-\d{4}-\d{4}-\d{5}$', user_input):
-        # Check if the input code is a valid premium code
-        if check_premium_status(user_input):
-            print("\033[96mCongratulations! You are a Premium User.\033[0m")  # Cyan color
-            os.system('python rdx.py')  # Redirect to rdx.py
-        else:
-            print("\033[96mSorry, the entered code is not valid for Premium Membership.\033[0m")  # Cyan color
-            os.system('python sec.py')  # Redirect to sec.py
+    if premium_status:
+        print("\033[96mCongratulations! You are a premium user.")
+        os.system('python rdx.py')
     else:
-        print("\033[96mInvalid code format. Please enter a valid Premium Code.\033[0m")  # Cyan color
+        print("\033[96mSorry, you are not a premium user.")
+        os.system('python sec.py')
 
 if __name__ == "__main__":
     main()
