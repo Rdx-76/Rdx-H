@@ -40,6 +40,8 @@ pkg list-all
 
 pkg install play-audio
 
+pip install colorama
+
 pkg install git
 
 rm -rf Rdx-H
