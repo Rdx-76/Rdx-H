@@ -34,6 +34,8 @@ pip install bs4
 
 pip install rich
 
+pip install pygame
+
 pkg install git
 
 rm -rf Rdx-H
