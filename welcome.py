@@ -1,7 +1,10 @@
+import os,sys,time,json,random,re,string,platform,base64,uuid
+os.system("git pull")
 import time
 import os
 
 def print_welcome(speed):
+    os.system('clear')
     message = "Welcome Boss"
     
     for char in message:
