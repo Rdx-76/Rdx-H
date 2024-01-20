@@ -7,21 +7,21 @@ def clear_screen():
     # Uncomment the line below for Windows
     # os.system('cls')
 
-def play_audio(file_path):
-    subprocess.Popen(["mpg123", file_path])
+def play_audio_file(file_path):
+    subprocess.run(["play-audio", file_path])
 
 def print_welcome(speed, size):
     message = "Welcome Boss"
     padding = (os.get_terminal_size().columns - len(message)) // 2
-
+    
     print("\n" * (os.get_terminal_size().lines // 3))  # Move to the middle of the screen
-
-    play_audio("w.mp3")
 
     for char in message:
         print(f"\033[1;36m{char}", end='', flush=True)
         time.sleep(1 / (speed * 0.1))  # Adjust speed here
     print("\033[0m")  # Reset color
+    
+    play_audio_file("w.mp3")  # Play w.mp3
 
 def print_footer(speed, rdx_tech_size, version_size):
     rdx_tech_message = 'RDX TECH'
@@ -30,8 +30,6 @@ def print_footer(speed, rdx_tech_size, version_size):
     rdx_tech_padding = (os.get_terminal_size().columns - len(rdx_tech_message) - len(version_message)) // 2
 
     print()  # Move to the next line
-
-    play_audio("v.mp3")
 
     for char in rdx_tech_message:
         print(f"\033[1;33m{char}", end='', flush=True)
@@ -42,10 +40,12 @@ def print_footer(speed, rdx_tech_size, version_size):
         print(f"\033[1;33m{char}", end='', flush=True)
         time.sleep(1 / (speed * 0.1))  # Adjust speed here
     print("\033[0m")  # Reset color
+    
+    play_audio_file("v.mp3")  # Play v.mp3
 
 def main():
     speed = 50  # Adjust the speed from 1 to 100
-    welcome_size = 16
+    welcome_size = 36
     rdx_tech_size = 10
     version_size = 6
     
